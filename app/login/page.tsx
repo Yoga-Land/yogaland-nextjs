@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
@@ -14,26 +15,34 @@ export default function LoginPage() {
   const router = useRouter();
   const login = useAuthStore((state) => state.login);
 
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  
+      useEffect(() => {
+      if (isAuthenticated) {
+        router.push('/dashboard');
+      } else {
+        router.push('/login');
+      }
+    }, [isAuthenticated, router]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
      setError('');
     setLoading(true);
 
     try {
-      // const res = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password }),
-      // });
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-      // const data = await res.json();
+      const data = await res.json();
 
-      // if (!res.ok) {
-      //   throw new Error(data.error || 'Login failed');
-      // }
-      // login(data.user.email);
-
-      login(email); // Mock login for demonstration
+      if (!res.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+      login(data.user.email);
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.message);
