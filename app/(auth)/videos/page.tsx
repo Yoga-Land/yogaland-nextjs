@@ -1,0 +1,83 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import VideoCard from '@/components/VideoCard';
+import Button from '@/components/Button';
+
+interface Video {
+  id: string;
+  title: string;
+  description?: string;
+  thumbnail: string;
+  videoUrl: string;
+  duration: number;
+}
+
+export default function VideosPage() {
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+
+  const fetchVideos = async () => {
+    try {
+      const res = await fetch('/api/videos');
+      const data = await res.json();
+      setVideos(data);
+    } catch (error) {
+      console.error('Failed to fetch videos:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this video?')) return;
+
+    try {
+      await fetch(`/api/videos/${id}`, { method: 'DELETE' });
+      fetchVideos();
+    } catch (error) {
+      console.error('Failed to delete video:', error);
+    }
+  };
+
+  return (
+    <div>
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Videos</h1>
+          <p className="text-gray-600">Manage your yoga video content</p>
+        </div>
+        <Button  variant="secondary" onClick={() => router.push('/videos/new')}>
+          Add New Video
+        </Button>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      ) : videos.length === 0 ? (
+        <div className="card text-center py-12">
+          <p className="text-gray-600">No videos yet. Add your first video!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {videos.map((video) => (
+            <VideoCard
+              key={video.id}
+              video={video}
+              onEdit={() => router.push(`/videos/${video.id}`)}
+              onDelete={() => handleDelete(video.id)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
