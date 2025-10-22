@@ -1,0 +1,60 @@
+yogaland-admin/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx (redirect to /dashboard if logged in)
+│   ├── login/
+│   │   └── page.tsx
+│   ├── dashboard/
+│   │   └── page.tsx
+│   ├── videos/
+│   │   ├── page.tsx
+│   │   ├── new/
+│   │   │   └── page.tsx
+│   │   └── [id]/
+│   │       └── page.tsx (edit/view video)
+│   ├── ads/
+│   │   ├── page.tsx
+│   │   └── new/
+│   │       └── page.tsx
+│   └── api/
+│       ├── auth/
+│       │   ├── login.ts
+│       │   └── logout.ts
+│       ├── videos/
+│       │   ├── index.ts
+│       │   ├── [id].ts
+│       │   └── upload.ts
+│       └── ads/
+│           ├── index.ts
+│           └── [id].ts
+│
+├── components/
+│   ├── VideoCard.tsx
+│   ├── VideoPreviewModal.tsx
+│   ├── FormInput.tsx
+│   ├── Navbar.tsx
+│   ├── Sidebar.tsx
+│   ├── StatCard.tsx
+│   └── Button.tsx
+│
+├── store/
+│   ├── authStore.ts
+│   └── uiStore.ts
+│
+├── lib/
+│   ├── prisma.ts
+│   ├── auth.ts
+│   └── validations/
+│       ├── loginSchema.ts
+│       ├── videoSchema.ts
+│       └── adSchema.ts
+│
+├── prisma/
+│   └── schema.prisma
+│
+├── styles/
+│   └── globals.css
+│
+├── package.json
+├── tsconfig.json
+└── tailwind.config.ts
