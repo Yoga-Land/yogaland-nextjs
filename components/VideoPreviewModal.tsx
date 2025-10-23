@@ -1,19 +1,44 @@
-'use client';
+"use client";
 
-import { useUIStore } from '@/store/uiStore';
-import { useEffect, useRef } from 'react';
+import { useUIStore } from "@/store/uiStore";
+import { useEffect, useRef } from "react";
 
 export default function VideoPreviewModal() {
   const { previewVideo, setPreviewVideo } = useUIStore();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (previewVideo && videoRef.current) {
-      videoRef.current.load();
+    const video = videoRef.current;
+    if (previewVideo && video && !isYouTube(previewVideo.videoUrl)) {
+      video.load();
+
+      const handleCanPlay = () => {
+        video
+          .play()
+          .then(() => console.log("Video playing"))
+          .catch((err) => console.warn("Autoplay blocked:", err));
+      };
+
+      video.addEventListener("canplay", handleCanPlay);
+
+      return () => {
+        video.pause();
+        video.removeEventListener("canplay", handleCanPlay);
+      };
     }
   }, [previewVideo]);
 
   if (!previewVideo) return null;
+
+  const isYouTube = (url: string) =>
+    url.includes("youtube.com") || url.includes("youtu.be");
+  const getYouTubeEmbedUrl = (url: string) => {
+    const videoIdMatch = url.match(
+      /(?:youtube\.com\/.*v=|youtu\.be\/)([^&#?]*)/
+    );
+    const videoId = videoIdMatch ? videoIdMatch[1] : null;
+    return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+  };
 
   return (
     <div
@@ -35,15 +60,28 @@ export default function VideoPreviewModal() {
             ×
           </button>
         </div>
-        <video
-          ref={videoRef}
-          controls
-          className="w-full rounded-lg"
-          poster={previewVideo.thumbnail}
-        >
-          <source src={previewVideo.videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+
+        {isYouTube(previewVideo.videoUrl) ? (
+          <div className="relative pb-[56.25%] h-0">
+            <iframe
+              src={getYouTubeEmbedUrl(previewVideo.videoUrl)}
+              className="absolute top-0 left-0 w-full h-full rounded-lg"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title={previewVideo.title}
+            />
+          </div>
+        ) : (
+          <video
+            ref={videoRef}
+            controls
+            className="w-full rounded-lg"
+            poster={previewVideo.thumbnail}
+          >
+            <source src={previewVideo.videoUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        )}
       </div>
     </div>
   );

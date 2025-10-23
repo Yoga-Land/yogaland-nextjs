@@ -1,17 +1,19 @@
-'use client';
+"use client";
 
-import { useAuthStore } from '@/store/authStore';
-import { useRouter } from 'next/navigation';
-import Button from './Button';
+import { useAuthStore } from "@/store/authStore";
+import { useRouter } from "next/navigation";
+import Button from "./Button";
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const { user, logout } = useAuthStore();
   const router = useRouter();
 
   const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
+    await fetch("/api/auth/logout", { method: "POST" });
     logout();
-    router.push('/login');
+    toast.success("Logged out successfully!");
+    router.push("/login");
   };
 
   return (

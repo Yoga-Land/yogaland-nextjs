@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import VideoCard from '@/components/VideoCard';
-import Button from '@/components/Button';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import VideoCard from "@/components/VideoCard";
+import Button from "@/components/Button";
+import toast from "react-hot-toast";
 
 interface Video {
   id: string;
@@ -25,24 +26,27 @@ export default function VideosPage() {
 
   const fetchVideos = async () => {
     try {
-      const res = await fetch('/api/videos');
+      const res = await fetch("/api/videos");
       const data = await res.json();
       setVideos(data);
     } catch (error) {
-      console.error('Failed to fetch videos:', error);
+      console.error("Failed to fetch videos:", error);
+      toast.error("Failed to load videos.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this video?')) return;
+    if (!confirm("Are you sure you want to delete this video?")) return;
 
     try {
-      await fetch(`/api/videos/${id}`, { method: 'DELETE' });
+      await fetch(`/api/videos/${id}`, { method: "DELETE" });
       fetchVideos();
+      toast.success("Video deleted successfully!");
     } catch (error) {
-      console.error('Failed to delete video:', error);
+      console.error("Failed to delete video:", error);
+      toast.error("Failed to delete video.");
     }
   };
 
@@ -53,7 +57,7 @@ export default function VideosPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Videos</h1>
           <p className="text-gray-600">Manage your yoga video content</p>
         </div>
-        <Button  variant="secondary" onClick={() => router.push('/videos/new')}>
+        <Button variant="secondary" onClick={() => router.push("/videos/new")}>
           Add New Video
         </Button>
       </div>
@@ -72,7 +76,10 @@ export default function VideosPage() {
             <VideoCard
               key={video.id}
               video={video}
-              onEdit={() => router.push(`/videos/${video.id}`)}
+              onEdit={() => {
+                const videoData = encodeURIComponent(JSON.stringify(video));
+                router.push(`/videos/edit?data=${videoData}`);
+              }}
               onDelete={() => handleDelete(video.id)}
             />
           ))}

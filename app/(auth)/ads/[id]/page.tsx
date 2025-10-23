@@ -1,12 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import FormInput from "@/components/FormInput";
 import Button from "@/components/Button";
 
 export default function NewAdPage() {
-  const [formData, setFormData] = useState({
+  const searchParams = useSearchParams();
+  const dataParam = searchParams.get("data");
+  type Ad = {
+    id?: string;
+    title: string;
+    type: string;
+    vastUrl: string;
+    active: boolean;
+  };
+
+  const [formData, setFormData] = useState<Ad>({
     title: "",
     type: "Select Ad Type",
     vastUrl: "",
@@ -16,21 +27,32 @@ export default function NewAdPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    if (dataParam) {
+      try {
+        const parsed = JSON.parse(decodeURIComponent(dataParam));
+        setFormData(parsed);
+      } catch (err) {
+        setError("Invalid Ad data");
+      }
+    }
+  }, [dataParam]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const res = await fetch("/api/ads", {
-        method: "POST",
+      const res = await fetch(`/api/ads/${formData.id}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Failed to create ad");
+        throw new Error(data.error || "Failed to Edit ad");
       }
 
       router.push("/ads");
