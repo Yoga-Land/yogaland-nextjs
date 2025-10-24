@@ -15,6 +15,7 @@ export default function EditVideoPage() {
     thumbnail: string;
     videoUrl: string;
     duration?: number;
+    active?: boolean;
   };
   const [formData, setFormData] = useState<Video>({
     id: "",
@@ -23,6 +24,7 @@ export default function EditVideoPage() {
     thumbnail: "",
     videoUrl: "",
     duration: 0,
+    active: true,
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -128,6 +130,21 @@ export default function EditVideoPage() {
             }
             required
           />
+          <div className="mb-4">
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={formData.active}
+                onChange={(e) =>
+                  setFormData({ ...formData, active: e.target.checked })
+                }
+                className="rounded border-gray-300 text-primary focus:ring-primary"
+              />
+              <span className="text-sm font-medium text-gray-700">
+                Set as active
+              </span>
+            </label>
+          </div>
 
           {error && (
             <div className="p-3 bg-[#FEE2E2] border border-[#FECACA] text-[#B91C1C] rounded-lg">

@@ -13,6 +13,8 @@ interface Video {
   thumbnail: string;
   videoUrl: string;
   duration: number;
+  views: number;
+  active: boolean;
 }
 
 export default function VideosPage() {
@@ -50,6 +52,22 @@ export default function VideosPage() {
     }
   };
 
+  const toggleActive = async (id: string, currentStatus: boolean) => {
+    try {
+      await fetch(`/api/videos/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ active: !currentStatus }),
+      });
+      toast.success(`Ad ${currentStatus ? "deactivated" : "activated"}!`);
+      console.log("Toggled active status", id, !currentStatus);
+      fetchVideos();
+    } catch (error) {
+      console.error("Failed to update ad:", error);
+      toast.error("Failed to update ad status.");
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
@@ -76,6 +94,7 @@ export default function VideosPage() {
             <VideoCard
               key={video.id}
               video={video}
+              toggleActive={() => toggleActive(video.id, video.active)}
               onEdit={() => {
                 const videoData = encodeURIComponent(JSON.stringify(video));
                 router.push(`/videos/edit?data=${videoData}`);

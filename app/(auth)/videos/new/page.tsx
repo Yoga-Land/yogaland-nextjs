@@ -1,40 +1,42 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import FormInput from '@/components/FormInput';
-import Button from '@/components/Button';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import FormInput from "@/components/FormInput";
+import Button from "@/components/Button";
 
 export default function NewVideoPage() {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    thumbnail: '',
-    videoUrl: '',
+    title: "",
+    description: "",
+    thumbnail: "",
+    videoUrl: "",
     duration: 0,
+    views: 0,
+    active: true,
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
-      const res = await fetch('/api/videos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/videos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || 'Failed to create video');
+        throw new Error(data.error || "Failed to create video");
       }
 
-      router.push('/videos');
+      router.push("/videos");
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -44,7 +46,9 @@ export default function NewVideoPage() {
 
   return (
     <div className="max-w-3xl mx-auto py-5 px-6">
-      <h1 className="text-3xl font-bold text-[#1F2937] mb-2 text-center">Add New Video</h1>
+      <h1 className="text-3xl font-bold text-[#1F2937] mb-2 text-center">
+        Add New Video
+      </h1>
 
       <div className="bg-[#F9FAFB] p-8 rounded-xl shadow-lg border border-[#E5E7EB]">
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -104,6 +108,21 @@ export default function NewVideoPage() {
             }
             required
           />
+          <div className="mb-4">
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={formData.active}
+                onChange={(e) =>
+                  setFormData({ ...formData, active: e.target.checked })
+                }
+                className="rounded border-gray-300 text-primary focus:ring-primary"
+              />
+              <span className="text-sm font-medium text-gray-700">
+                Set as active
+              </span>
+            </label>
+          </div>
 
           {error && (
             <div className="p-3 bg-[#FEE2E2] border border-[#FECACA] text-[#B91C1C] rounded-lg">
@@ -117,12 +136,12 @@ export default function NewVideoPage() {
               disabled={loading}
               className="bg-[#FF9100] text-amber-700 font-semibold hover:bg-[#E68200] transition-colors rounded-lg px-6 py-2"
             >
-              {loading ? 'Creating...' : 'Create Video'}
+              {loading ? "Creating..." : "Create Video"}
             </Button>
             <Button
               type="button"
               variant="secondary"
-              onClick={() => router.push('/videos')}
+              onClick={() => router.push("/videos")}
               className="bg-[#E5E7EB] text-[#374151] font-semibold hover:bg-[#D1D5DB] transition-colors rounded-lg px-6 py-2"
             >
               Cancel
