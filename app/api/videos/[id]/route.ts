@@ -4,11 +4,12 @@ import { videoSchema } from '@/lib/validations/videoSchema';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }:  { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const video = await prisma.video.findUnique({
-      where: { id: params.id },
+      where: { id},
     });
 
     if (!video) {
@@ -23,14 +24,15 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }:  { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await req.json();
-    const validated = videoSchema.parse(body);
+    const validated = videoSchema.partial().parse(body);
 
     const video = await prisma.video.update({
-      where: { id: params.id },
+      where: { id },
       data: validated,
     });
 
@@ -42,11 +44,12 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }:  { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.video.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ success: true });

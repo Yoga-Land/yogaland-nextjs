@@ -27,6 +27,8 @@ model Video {
   thumbnail   String
   videoUrl    String
   duration    Int
+  views       Int      @default(0)
+  active      Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -34,7 +36,7 @@ model Video {
 model Ad {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
-  type      String   // "pre-roll" | "mid-roll"
+  type      String // "pre-roll" | "mid-roll"
   vastUrl   String
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
