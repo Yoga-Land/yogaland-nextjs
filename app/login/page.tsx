@@ -67,19 +67,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">YogaLand TV</h1>
-          <p className="text-gray-600">Admin Portal Login</p>
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8 bg-gradient-to-br from-yellow-50 via-white to-yellow-100">
+      <div className="bg-white p-6 sm:p-8 md:p-10 rounded-xl shadow-lg w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-md transition-all">
+        {/* Header */}
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-amber-600">
+            YogaLand TV
+          </h1>
+          <p className="text-gray-600 text-sm sm:text-base">
+            Admin Portal Login
+          </p>
         </div>
 
+        {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           {/* Email Input */}
           <FormInput
             label="Email"
             type="email"
-            className="w-full h-8 p-1.5 border border-gray-300 rounded"
+            className="w-full h-10 sm:h-11 md:h-12 p-2 sm:p-3 border border-gray-300 rounded-lg text-sm sm:text-base"
             placeholder="admin@yogaland.com"
             {...register("email")}
           />
@@ -92,12 +98,12 @@ export default function LoginPage() {
             <FormInput
               label="Password"
               type={showPassword ? "text" : "password"}
-              className="w-full h-8 p-1.5 border border-gray-300 rounded"
+              className="w-full h-10 sm:h-11 md:h-12 p-2 sm:p-3 border border-gray-300 rounded-lg text-sm sm:text-base"
               placeholder="••••••••"
               {...register("password")}
             />
             <span
-              className="absolute right-3 top-[35px] cursor-pointer text-gray-500"
+              className="absolute right-3 top-[35px] sm:top-[40px] md:top-[42px] cursor-pointer text-gray-500 text-lg"
               onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
@@ -112,7 +118,7 @@ export default function LoginPage() {
 
           {/* API Error */}
           {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded mt-3">
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded mt-3 text-sm sm:text-base">
               {error}
             </div>
           )}
@@ -120,7 +126,7 @@ export default function LoginPage() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full bg-amber-500 text-white py-2 rounded hover:bg-amber-600 transition-colors cursor-pointer mt-4"
+            className="w-full  lg:w-full bg-amber-500 text-white py-2 sm:py-3 rounded-lg hover:bg-amber-600  transition-colors mt-4 text-sm sm:text-base"
             disabled={loading}
           >
             {loading ? "Logging in..." : "Login"}

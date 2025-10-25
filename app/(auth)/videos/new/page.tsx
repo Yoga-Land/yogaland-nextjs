@@ -23,19 +23,13 @@ export default function NewVideoPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
     try {
       const res = await fetch("/api/videos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Failed to create video");
-      }
-
+      if (!res.ok) throw new Error("Failed to create video");
       router.push("/videos");
     } catch (err: any) {
       setError(err.message);
@@ -45,16 +39,15 @@ export default function NewVideoPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-5 px-6">
-      <h1 className="text-3xl font-bold text-[#1F2937] mb-2 text-center">
+    <div className="max-w-3xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 text-center">
         Add New Video
       </h1>
 
-      <div className="bg-[#F9FAFB] p-8 rounded-xl shadow-lg border border-[#E5E7EB]">
-        <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg border border-gray-200">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <FormInput
             label="Title"
-            className="w-full p-3 border border-[#D1D5DB] rounded-lg  focus:border-transparent transition-all"
             value={formData.title}
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
@@ -63,12 +56,12 @@ export default function NewVideoPage() {
           />
 
           <div>
-            <label className="block text-sm font-medium text-[#374151] mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Description
             </label>
             <textarea
-              className="w-full p-3 border border-[#D1D5DB] rounded-lg  focus:border-transparent transition-all resize-none"
               rows={4}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-amber-500"
               value={formData.description}
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
@@ -78,7 +71,6 @@ export default function NewVideoPage() {
 
           <FormInput
             label="Thumbnail URL"
-            className="w-full p-3 border border-[#D1D5DB] rounded-lg focus:border-transparent transition-all"
             type="url"
             value={formData.thumbnail}
             onChange={(e) =>
@@ -90,7 +82,6 @@ export default function NewVideoPage() {
           <FormInput
             label="Video URL"
             type="url"
-            className="w-full p-3 border border-[#D1D5DB] rounded-lg  focus:border-transparent transition-all"
             value={formData.videoUrl}
             onChange={(e) =>
               setFormData({ ...formData, videoUrl: e.target.value })
@@ -101,40 +92,35 @@ export default function NewVideoPage() {
           <FormInput
             label="Duration (seconds)"
             type="number"
-            className="w-full p-3 border border-[#D1D5DB] rounded-lg  focus:border-transparent transition-all"
             value={formData.duration}
             onChange={(e) =>
-              setFormData({ ...formData, duration: parseInt(e.target.value) })
+              setFormData({ ...formData, duration: +e.target.value })
             }
             required
           />
-          <div className="mb-4">
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={formData.active}
-                onChange={(e) =>
-                  setFormData({ ...formData, active: e.target.checked })
-                }
-                className="rounded border-gray-300 text-primary focus:ring-primary"
-              />
-              <span className="text-sm font-medium text-gray-700">
-                Set as active
-              </span>
-            </label>
-          </div>
+
+          <label className="flex items-center space-x-2 text-sm">
+            <input
+              type="checkbox"
+              checked={formData.active}
+              onChange={(e) =>
+                setFormData({ ...formData, active: e.target.checked })
+              }
+            />
+            <span>Set as active</span>
+          </label>
 
           {error && (
-            <div className="p-3 bg-[#FEE2E2] border border-[#FECACA] text-[#B91C1C] rounded-lg">
+            <p className="text-red-600 text-sm bg-red-100 p-2 rounded-md">
               {error}
-            </div>
+            </p>
           )}
 
-          <div className="flex justify-end gap-4">
+          <div className="flex flex-col sm:flex-row justify-end gap-3">
             <Button
               type="submit"
               disabled={loading}
-              className="bg-[#FF9100] text-amber-700 font-semibold hover:bg-[#E68200] transition-colors rounded-lg px-6 py-2"
+              className="w-full sm:w-auto bg-amber-500 text-white font-semibold hover:bg-amber-600"
             >
               {loading ? "Creating..." : "Create Video"}
             </Button>
@@ -142,7 +128,7 @@ export default function NewVideoPage() {
               type="button"
               variant="secondary"
               onClick={() => router.push("/videos")}
-              className="bg-[#E5E7EB] text-[#374151] font-semibold hover:bg-[#D1D5DB] transition-colors rounded-lg px-6 py-2"
+              className="w-full sm:w-auto"
             >
               Cancel
             </Button>
