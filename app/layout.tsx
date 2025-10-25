@@ -21,14 +21,11 @@ export default function RootLayout({
         {children}
         <Toaster
           position="top-right"
-          reverseOrder={false}
           toastOptions={{
-            success: {
-              style: { background: "#10B981", color: "#fff" },
-            },
-            error: {
-              style: { background: "#EF4444", color: "#fff" },
-            },
+            className: "text-sm sm:text-base font-small rounded-lg shadow-lg",
+            style: { maxWidth: "90vw" },
+            success: { style: { background: "#10B981", color: "#fff" } },
+            error: { style: { background: "#EF4444", color: "#fff" } },
           }}
         />
       </body>

@@ -9,26 +9,26 @@ export default function AdPreviewModal() {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
       onClick={() => setPreviewAd(null)}
     >
       <div
-        className="bg-white rounded-lg p-6 max-w-3xl w-full mx-4"
+        className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-3xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-900">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
             {previewAd.title}
           </h2>
           <button
             onClick={() => setPreviewAd(null)}
-            className="text-gray-500 hover:text-gray-700 text-2xl"
+            className="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl"
           >
             ×
           </button>
         </div>
 
-        <p className="text-gray-600 mb-3">
+        <p className="text-sm sm:text-base text-gray-600 mb-3">
           <strong>Type:</strong> {previewAd.type}
         </p>
 

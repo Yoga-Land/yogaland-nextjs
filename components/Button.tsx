@@ -12,7 +12,8 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseClasses =
-    "font-medium py-2 px-4 rounded-lg transition-colors duration-200 cursor-pointer ";
+    "font-medium rounded-lg transition-colors duration-200 cursor-pointer w-full sm:w-auto text-sm sm:text-base py-2 px-4 sm:py-2.5 sm:px-6";
+
   const variantClasses = {
     primary: "bg-primary hover:bg-primary-dark text-white",
     secondary: "bg-gray-200 hover:bg-gray-300 text-gray-800",

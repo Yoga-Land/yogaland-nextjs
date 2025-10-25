@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import toast from "react-hot-toast";
 import { useUIStore } from "@/store/uiStore";
 import AdPreviewModal from "@/components/AdPreviewModal";
+import ConfirmModal from "@/components/ConfirmModal";
 
 interface Ad {
   id: string;
@@ -21,6 +22,7 @@ export default function AdsPage() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { setPreviewAd } = useUIStore();
+  const [deleteTarget, setDeleteTarget] = useState<Ad | null>(null); // track video to delete
 
   useEffect(() => {
     fetchAds();
@@ -39,16 +41,16 @@ export default function AdsPage() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this ad?")) return;
-
+  const handleConfirmDelete = async () => {
+    if (!deleteTarget) return;
     try {
-      await fetch(`/api/ads/${id}`, { method: "DELETE" });
+      await fetch(`/api/ads/${deleteTarget.id}`, { method: "DELETE" });
       toast.success("Ad deleted successfully!");
       fetchAds();
     } catch (error) {
-      console.error("Failed to delete ad:", error);
       toast.error("Failed to delete ad.");
+    } finally {
+      setDeleteTarget(null);
     }
   };
 
@@ -71,14 +73,20 @@ export default function AdsPage() {
     <div className="h-full">
       <AdPreviewModal />
 
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 text-center sm:text-left ">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">VAST Ads</h1>
-          <p className="text-gray-600">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
+            VAST Ads
+          </h1>
+          <p className="text-gray-600 text-sm sm:text-base">
             Manage pre-roll and mid-roll advertisements
           </p>
         </div>
-        <Button variant="secondary" onClick={() => router.push("/ads/new")}>
+        <Button
+          variant="secondary"
+          onClick={() => router.push("/ads/new")}
+          className="w-full sm:w-auto"
+        >
           Add New Ad
         </Button>
       </div>
@@ -92,31 +100,39 @@ export default function AdsPage() {
           <p className="text-gray-600">No ads configured yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {ads.map((ad) => (
             <div
               key={ad.id}
-              className="bg-white shadow rounded-lg p-4 hover:shadow-md transition"
+              className="bg-white shadow rounded-lg p-4 hover:shadow-md transition flex flex-col justify-between h-full"
             >
-              <h3 className="text-lg font-bold text-gray-900">{ad.title}</h3>
-              <p className="text-sm text-gray-500 mb-2">{ad.type}</p>
-              <p className="text-xs text-gray-400 truncate">{ad.vastUrl}</p>
+              <div>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 truncate">
+                  {ad.title}
+                </h3>
+                <p className="text-sm sm:text-base text-gray-500 mb-1">
+                  {ad.type}
+                </p>
+                <p className="text-xs sm:text-sm text-gray-400 truncate">
+                  {ad.vastUrl}
+                </p>
+              </div>
 
-              <div className="flex justify-between items-center mt-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-4 gap-2 sm:gap-3">
                 <button
                   onClick={() => setPreviewAd(ad)}
-                  className="text-blue-600 hover:underline text-sm"
+                  className="text-blue-600 hover:underline text-sm sm:text-base cursor-pointer"
                 >
                   Preview
                 </button>
 
-                <div className="flex gap-3">
+                <div className="flex flex-wrap gap-2">
                   <button
-                    title="click to toggle status"
+                    title="Click to toggle status"
                     onClick={() => toggleActive(ad.id, ad.active)}
-                    className={`text-sm px-2 py-1 rounded cursor-pointer ${
+                    className={`text-sm sm:text-base px-2 py-1 rounded cursor-pointer ${
                       ad.active
-                        ? "bg-green-100 text-green-700 "
+                        ? "bg-green-100 text-green-700"
                         : "bg-gray-200 text-gray-700"
                     }`}
                   >
@@ -127,13 +143,13 @@ export default function AdsPage() {
                       const adData = encodeURIComponent(JSON.stringify(ad));
                       router.push(`/ads/edit?data=${adData}`);
                     }}
-                    className="text-sm text-blue-600 hover:underline"
+                    className="text-sm sm:text-base text-blue-600 hover:underline cursor-pointer"
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDelete(ad.id)}
-                    className="text-sm text-red-600 hover:underline"
+                    onClick={() => setDeleteTarget(ad)}
+                    className="text-sm sm:text-base text-red-600 hover:underline cursor-pointer"
                   >
                     Delete
                   </button>
@@ -143,6 +159,13 @@ export default function AdsPage() {
           ))}
         </div>
       )}
+      <ConfirmModal
+        isOpen={!!deleteTarget}
+        title="Delete Ad"
+        message={`Are you sure you want to delete "${deleteTarget?.title}"?`}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setDeleteTarget(null)}
+      />
     </div>
   );
 }
