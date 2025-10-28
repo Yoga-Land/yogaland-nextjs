@@ -34,64 +34,63 @@ export default function VideoCard({
   };
 
   return (
-    <div className="relative overflow-hidden rounded-lg border border-gray-300 shadow-sm hover:shadow-lg transition-shadow bg-white">
-      {/* Thumbnail Container */}
+    <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-all">
+      {/* Thumbnail */}
       <div className="relative group">
         <img
           src={video.thumbnail}
           alt={video.title}
-          className="w-full h-48 object-cover rounded-t-lg"
+          className="w-full h-44 sm:h-52 md:h-60 object-cover rounded-t-xl"
         />
-        {/* Preview Button (shown on hover) */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-100 opacity-0 group-hover:opacity-80 transition-opacity">
+        {/* Preview Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center bg-black/80 bg-opacity-10 opacity-0 group-hover:opacity-90 transition-opacity">
           <Button
             onClick={() => setPreviewVideo(video)}
-            className="text-white px-4 py-2 bg-amber-500"
+            className="bg-amber-500 text-white text-sm sm:text-base px-4 py-2"
           >
             Preview
           </Button>
         </div>
       </div>
 
-      {/* Video Info */}
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+      {/* Info */}
+      <div className="p-4 space-y-3">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900">
           {video.title}
         </h3>
-        <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-          {video.description}
+        <p className="text-sm text-gray-600 line-clamp-2">
+          {video.description || "No description"}
         </p>
-        <p className="text-xs text-black-500 mb-4">
-          Duration: {formatDuration(video.duration)}
-          <span className="ml-50">
-            <button
-              title="click to toggle status"
-              onClick={toggleActive}
-              className={`text-sm px-2 py-1 rounded cursor-pointer ${
-                video.active
-                  ? "bg-green-100 text-green-700 "
-                  : "bg-gray-200 text-gray-700"
-              }`}
-            >
-              {video.active ? "Active" : "Inactive"}
-            </button>
-          </span>
-        </p>
-        <p className="text-xs text-black-500 mb-4">Views: {video.views}</p>
 
-        {/* Edit & Delete Buttons */}
-        <div className="flex space-x-2">
+        <div className="flex items-center justify-between text-xs sm:text-sm text-gray-700">
+          <span>Duration: {formatDuration(video.duration)}</span>
+          <button
+            onClick={toggleActive}
+            title="Toggle status"
+            className={`px-2 py-1 rounded cursor-pointer ${
+              video.active
+                ? "bg-green-100 text-green-700"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            {video.active ? "Active" : "Inactive"}
+          </button>
+        </div>
+
+        <p className="text-xs sm:text-sm text-gray-500">Views: {video.views}</p>
+
+        <div className="flex flex-col sm:flex-row gap-2">
           <Button
             variant="secondary"
             onClick={onEdit}
-            className="flex-1 text-sm"
+            className="flex-1 text-sm sm:text-base"
           >
             Edit
           </Button>
           <Button
             variant="danger"
             onClick={onDelete}
-            className="flex-1 text-sm"
+            className="flex-1 text-sm sm:text-base"
           >
             Delete
           </Button>

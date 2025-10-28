@@ -42,13 +42,13 @@ export default function NewAdPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-5 px-6">
-      <h1 className="text-3xl font-bold text-[#1F2937] mb-2 text-center">
+    <div className="max-w-full sm:max-w-3xl mx-auto py-5 px-4 sm:px-6">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 text-center">
         Add New Ad
       </h1>
 
-      <div className="bg-[#F9FAFB] p-8 rounded-xl shadow-lg border border-[#E5E7EB]">
-        <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="bg-white sm:bg-[#F9FAFB] p-4 sm:p-8 rounded-xl shadow-lg border border-gray-200 sm:border-[#E5E7EB]">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <FormInput
             label="Ad Title"
             className="w-full p-2 border border-[#D1D5DB] rounded-lg  focus:border-transparent transition-all"
@@ -111,7 +111,7 @@ export default function NewAdPage() {
             </div>
           )}
 
-          <div className="flex space-x-4">
+          <div className="flex flex-col sm:flex-row sm:justify-start gap-4">
             <Button
               type="submit"
               disabled={loading}
