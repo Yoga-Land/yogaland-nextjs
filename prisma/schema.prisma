@@ -21,17 +21,20 @@ model Admin {
 }
 
 model Video {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
   thumbnail   String
   videoUrl    String
   duration    Int
-  views       Int      @default(0)
-  active      Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  views       Int         @default(0)
+  active      Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+
 }
+
 
 model Ad {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId

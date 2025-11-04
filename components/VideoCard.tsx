@@ -81,9 +81,6 @@ export default function VideoCard({
           Views: {video.views}
         </p>
 
-        {/* Spacer to push buttons to bottom */}
-        <div className="flex-1"></div>
-
         {/* Edit and Delete buttons at the bottom */}
         <div className="flex flex-col sm:flex-row gap-2 mt-auto">
           <Button
