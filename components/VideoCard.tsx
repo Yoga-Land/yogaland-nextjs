@@ -34,7 +34,7 @@ export default function VideoCard({
   };
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-all">
+    <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-all flex flex-col h-full">
       {/* Thumbnail */}
       <div className="relative group">
         <img
@@ -53,12 +53,12 @@ export default function VideoCard({
         </div>
       </div>
 
-      {/* Info */}
-      <div className="p-4 space-y-3">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-900">
+      {/* Info - Flex grow to push buttons to bottom */}
+      <div className="p-4 space-y-3 flex-1 flex flex-col">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 line-clamp-2">
           {video.title}
         </h3>
-        <p className="text-sm text-gray-600 line-clamp-2">
+        <p className="text-sm text-gray-600 line-clamp-1">
           {video.description || "No description"}
         </p>
 
@@ -77,9 +77,15 @@ export default function VideoCard({
           </button>
         </div>
 
-        <p className="text-xs sm:text-sm text-gray-500">Views: {video.views}</p>
+        <p className="text-xs sm:text-sm text-gray-1000">
+          Views: {video.views}
+        </p>
 
-        <div className="flex flex-col sm:flex-row gap-2">
+        {/* Spacer to push buttons to bottom */}
+        <div className="flex-1"></div>
+
+        {/* Edit and Delete buttons at the bottom */}
+        <div className="flex flex-col sm:flex-row gap-2 mt-auto">
           <Button
             variant="secondary"
             onClick={onEdit}
