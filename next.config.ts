@@ -1,3 +1,14 @@
+// import type { NextConfig } from "next";
+
+// import { NextConfig } from "next/types";
+
+// const nextConfig: NextConfig = {
+//   /* config options here */
+// };
+
+// export default nextConfig;
+
+
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -11,4 +22,3 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;

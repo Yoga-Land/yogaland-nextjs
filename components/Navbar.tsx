@@ -2,6 +2,7 @@
 
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Button from "./Button";
 import toast from "react-hot-toast";
 import { HiMenuAlt3 } from "react-icons/hi";
@@ -22,7 +23,7 @@ export default function Navbar({
   };
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-50">
+    <nav className="bg-white shadow-sm border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-50 ">
       <div className="flex items-center justify-between">
         {/* Left Section */}
         <div className="flex items-center gap-3">
@@ -34,14 +35,15 @@ export default function Navbar({
             <HiMenuAlt3 size={22} />
           </button>
 
-          <div className="flex flex-col">
-            <h1 className="text-xl sm:text-2xl font-bold text-amber-600">
-              YogaLand TV
-            </h1>
-            <span className="text-xs sm:text-sm text-gray-500">
-              Admin Portal
-            </span>
-          </div>
+          {/* Logo Section */}
+          <Image
+            src="/logo.png"
+            alt="YogaLand Logo"
+            width={100}
+            height={40}
+            className="object-contain sm:w-[140px] sm:h-[45px]"
+            priority
+          />
         </div>
 
         {/* Right Section */}
