@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Script from "next/script";
 import StatCard from "@/components/StatCard";
 import Button from "@/components/Button";
 
@@ -29,6 +30,26 @@ export default function DashboardPage() {
 
   return (
     <div>
+      {/* Ad Script */}
+      <Script
+        id="excitable-minor-ad"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(dihac){
+              var d = document,
+                  s = d.createElement('script'),
+                  l = d.scripts[d.scripts.length - 1];
+              s.settings = dihac || {};
+              s.src = "//excitableminor.com/bmXUVUsyd.GVlK0jYtWJcH/Wexmj9Yu/ZWUSlHkKPjTjY/2UOjTLQd5rM_T/c/txN-jtYs5RNvDXkkxLObAa";
+              s.async = true;
+              s.referrerPolicy = 'no-referrer-when-downgrade';
+              l.parentNode.insertBefore(s, l);
+            })({})
+          `,
+        }}
+      />
+
       {/* Header */}
       <div className="mb-8 text-center md:text-left">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
