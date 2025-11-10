@@ -24,7 +24,7 @@ model View {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   videoId   String   @db.ObjectId
   createdAt DateTime @default(now())
-
+  
   video      Video    @relation(fields: [videoId], references: [id])
 }
 
