@@ -20,6 +20,14 @@ model Admin {
   createdAt DateTime @default(now())
 }
 
+model View {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  videoId   String   @db.ObjectId
+  createdAt DateTime @default(now())
+
+  video      Video    @relation(fields: [videoId], references: [id])
+}
+
 model Video {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   title       String
@@ -32,7 +40,8 @@ model Video {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
-
+  // 👇 Relation to View
+  viewLogs    View[]
 }
 
 

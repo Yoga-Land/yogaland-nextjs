@@ -25,17 +25,13 @@ export default function Navbar({
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-50 ">
       <div className="flex items-center justify-between">
-        {/* Left Section */}
         <div className="flex items-center gap-3">
-          {/* Mobile Sidebar Toggle */}
           <button
             onClick={onToggleSidebar}
             className="block md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
             <HiMenuAlt3 size={22} />
           </button>
-
-          {/* Logo Section */}
           <Image
             src="/logo.png"
             alt="YogaLand Logo"
@@ -45,8 +41,6 @@ export default function Navbar({
             priority
           />
         </div>
-
-        {/* Right Section */}
         <div className="flex items-center gap-3 sm:gap-4">
           <span className="hidden sm:inline text-sm text-gray-700 truncate max-w-[120px] sm:max-w-[200px]">
             {user?.email}

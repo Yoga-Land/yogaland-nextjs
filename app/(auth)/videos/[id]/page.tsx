@@ -67,14 +67,11 @@ export default function EditVideoPage() {
 
   return (
     <div className="max-w-3xl mx-auto py-6 px-4 sm:px-6 md:px-8">
-      {/* Header */}
       <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 text-center">
         Edit Video
       </h1>
-
       <div className="bg-white p-5 sm:p-7 md:p-8 rounded-xl shadow-lg border border-gray-200">
         <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
-          {/* Title */}
           <FormInput
             label="Title"
             className="w-full p-3 border border-gray-300 rounded-lg focus:border-transparent transition-all"
@@ -84,8 +81,6 @@ export default function EditVideoPage() {
             }
             required
           />
-
-          {/* Description */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
               Description
@@ -99,8 +94,6 @@ export default function EditVideoPage() {
               }
             />
           </div>
-
-          {/* Thumbnail */}
           <FormInput
             label="Thumbnail URL"
             type="url"
@@ -111,8 +104,6 @@ export default function EditVideoPage() {
             }
             required
           />
-
-          {/* Video URL */}
           <FormInput
             label="Video URL"
             type="url"
@@ -123,8 +114,6 @@ export default function EditVideoPage() {
             }
             required
           />
-
-          {/* Duration */}
           <FormInput
             label="Duration (seconds)"
             type="number"
@@ -138,8 +127,6 @@ export default function EditVideoPage() {
             }
             required
           />
-
-          {/* Active checkbox */}
           <div>
             <label className="flex items-center gap-2 text-sm sm:text-base">
               <input
@@ -153,15 +140,11 @@ export default function EditVideoPage() {
               <span className="text-gray-700">Set as active</span>
             </label>
           </div>
-
-          {/* Error */}
           {error && (
             <div className="p-3 bg-red-100 border border-red-200 text-red-700 rounded-lg text-sm">
               {error}
             </div>
           )}
-
-          {/* Buttons */}
           <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
             <Button
               type="submit"
