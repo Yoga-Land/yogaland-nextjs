@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// ✅ Zod validation schema
  export const loginSchema = z.object({
   email: z.string().email("Please enter a valid email"),
   password: z

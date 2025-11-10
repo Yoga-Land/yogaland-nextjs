@@ -72,7 +72,6 @@ export default function VideosPage() {
 
   return (
     <div className="">
-      {/* Header */}
       <VideoPreviewModal />
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 text-center sm:text-left">
         <div>
@@ -91,8 +90,6 @@ export default function VideosPage() {
           Add New Video
         </Button>
       </div>
-
-      {/* Content */}
       {loading ? (
         <div className="flex justify-center py-12">
           <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary" />
@@ -119,7 +116,6 @@ export default function VideosPage() {
           ))}
         </div>
       )}
-      {/* Confirmation Modal */}
       <ConfirmModal
         isOpen={!!deleteTarget}
         title="Delete Video"

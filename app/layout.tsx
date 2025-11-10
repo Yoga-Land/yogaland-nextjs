@@ -8,10 +8,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "YogaLand TV - Admin Portal",
   description: "Manage your YogaLand TV content and advertisements",
-  other: {
-    ea2ff44ce04e183a89d24ac7cdbbb6bf7069748f:
-      "ea2ff44ce04e183a89d24ac7cdbbb6bf7069748f",
-  },
 };
 
 export default function RootLayout({
@@ -21,13 +17,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* Custom meta tag */}
-        <meta
-          name="ea2ff44ce04e183a89d24ac7cdbbb6bf7069748f"
-          content="ea2ff44ce04e183a89d24ac7cdbbb6bf7069748f"
-        />
-      </head>
       <body className={inter.className}>
         {children}
         <Toaster

@@ -35,14 +35,12 @@ export default function VideoCard({
 
   return (
     <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-all flex flex-col h-full">
-      {/* Thumbnail */}
       <div className="relative group">
         <img
           src={video.thumbnail}
           alt={video.title}
           className="w-full h-44 sm:h-52 md:h-60 object-cover rounded-t-xl"
         />
-        {/* Preview Overlay */}
         <div className="absolute inset-0 flex items-center justify-center bg-black/80 bg-opacity-10 opacity-0 group-hover:opacity-90 transition-opacity">
           <Button
             onClick={() => setPreviewVideo(video)}
@@ -52,8 +50,6 @@ export default function VideoCard({
           </Button>
         </div>
       </div>
-
-      {/* Info - Flex grow to push buttons to bottom */}
       <div className="p-4 space-y-3 flex-1 flex flex-col">
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 line-clamp-2">
           {video.title}
@@ -61,7 +57,6 @@ export default function VideoCard({
         <p className="text-sm text-gray-600 line-clamp-1">
           {video.description || "No description"}
         </p>
-
         <div className="flex items-center justify-between text-xs sm:text-sm text-gray-700">
           <span>Duration: {formatDuration(video.duration)}</span>
           <button
@@ -80,8 +75,6 @@ export default function VideoCard({
         <p className="text-xs sm:text-sm text-gray-1000">
           Views: {video.views}
         </p>
-
-        {/* Edit and Delete buttons at the bottom */}
         <div className="flex flex-col sm:flex-row gap-2 mt-auto">
           <Button
             variant="secondary"

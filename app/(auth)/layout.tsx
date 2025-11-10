@@ -24,18 +24,12 @@ export default function DashboardLayout({
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Navbar */}
       <Navbar onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
-
-      {/* Main layout */}
       <div className="flex flex-1 relative ">
-        {/* Sidebar (hidden on small screens) */}
         <Sidebar
           isOpen={isSidebarOpen}
           onClose={() => setIsSidebarOpen(false)}
         />
-
-        {/* Main content */}
         <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
           {children}
         </main>
